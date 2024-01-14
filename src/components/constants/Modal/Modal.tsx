@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Client, Databases, ID } from 'appwrite';
+import { Client, Databases, ID, Storage } from 'appwrite';
 import { FaHome } from 'react-icons/fa';
 
 interface FormData {
     title: string;
     content: string;
     author: string;
+   
+    
 }
 
 export const Modal = () => {
@@ -14,6 +16,8 @@ export const Modal = () => {
         title: '',
         content: '',
         author: '',
+      
+      
     });
 
     const client = new Client()
@@ -22,9 +26,12 @@ export const Modal = () => {
 
     const databases = new Databases(client);
 
+    const storage = new Storage(client);
+
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
+        
         try {
             const document = await databases.createDocument(
                 '65a2686f7ecaa9ecdd9f',
@@ -43,6 +50,22 @@ export const Modal = () => {
             ...prevFormData,
             [e.target.name]: e.target.value,
         }));
+    };
+    const handleFileUpload = () => {
+        const uploader = document.getElementById('uploader') as HTMLInputElement;
+        if (uploader && uploader.files && uploader.files.length > 0) {
+            const photo = storage.createFile(
+                '65a2bb1c99d284a9445e',
+                ID.unique(),
+                uploader.files[0]
+                
+            );
+            console.log(photo, 'file was created')
+            // Do something with the photo
+        }
+        else{
+            console.log('no file was created')
+        }
     };
 
 
@@ -75,6 +98,15 @@ export const Modal = () => {
                                 value={ formData.title }
                                 onChange={ handleChange }
                             />
+                            <input
+                                name='image'
+                                type="file"
+                                placeholder='Blog image'
+                                id="uploader"
+                                
+                                onChange={ handleChange }
+                            />
+                            <button onClick={ handleFileUpload }>Upload</button>
                             <textarea
                                 className="textarea w-full"
                                 name="content"
@@ -95,6 +127,7 @@ export const Modal = () => {
                             }>
                                 Submit
                             </button>
+                            
                         </form>
                     </div>
                 </div>

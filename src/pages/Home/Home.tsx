@@ -12,7 +12,7 @@ import { motion } from 'framer-motion';
 function Home() {
   return (
     <section
-      className="bg-base-100 mx-2 mt-4 " >
+      className="bg-base-100  mx-2 mt-4 " >
      
         <Table className="flex flex-col lg:flex-row gap-3 justify-around ">
           <div>
@@ -29,10 +29,11 @@ function Home() {
             <div className="divider divider-neutral ">
               <h2 className="text-2xl font-mono font-blod">...Blogs...</h2>
             </div>
-            <Modal />
+            
             
             </motion.div>
-            <Form />
+          <Form />
+          <Modal />
           </div>
         </Table>
         

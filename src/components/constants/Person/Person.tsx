@@ -2,6 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 // import collo1 from '/collo1.jpg'
 import { motion } from 'framer-motion';
 import { FaFacebookSquare, FaInstagramSquare, FaLinkedinIn, FaTwitter } from "react-icons/fa"
+import { Modal } from "../Modal/Modal";
 
 function Person() {
   return (
@@ -9,7 +10,7 @@ function Person() {
           initial={ { y: 400 } }
           animate={ { y: 0 } }
           transition={ { type: "spring", duration: 1.8 } }
-          className="card card-bordered max-w-1/3 w-96 bg-base-200 items-center justify-center px-6 py-2">
+          className="card card-bordered w-full lg:max-w-1/3 lg:w-96 bg-base-200 items-center justify-center px-6 py-2">
           <div>
               <Avatar className="w-24 h-24">
                   <AvatarImage src="https://github.com/shadcn.png" />
@@ -41,6 +42,7 @@ function Person() {
                       <FaLinkedinIn />
                   </a>
               </div>
+              <Modal/>
           </div>
 
     </motion.div>

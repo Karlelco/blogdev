@@ -1,6 +1,11 @@
+
+
+import { ModeToggle } from '@/components/ThemeProvider/mode-toggle';
 import { Link } from 'react-router-dom'
 
 function Header() {
+    
+    
     return (
         <header className='items-center shadow-gray-500 bg-base-200  border-b-2 '>
             <div className='navbar flex flex-1  items-center  justify-between px-10'>
@@ -9,7 +14,7 @@ function Header() {
                     <Link className=' btn-outline  px-3 py-1 rounded  hover:-rotate-6' to={ '/' }>Home</Link>
                     <Link className=' btn-outline  px-3 py-1 rounded ' to={ 'about' }>About</Link>
                     <Link className=' btn-outline  px-3 py-1 rounded hover:rotate-6  ' to={ 'contact' }>Contact</Link>
-                    <input type="checkbox" value="synthwave" className="toggle theme-controller" />
+                    <ModeToggle/>
                 </nav>
             </div>
         </header>

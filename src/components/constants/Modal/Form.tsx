@@ -1,392 +1,65 @@
-import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
-import { ScrollArea } from "@/components/ui/scroll-area"
+import { Table, TableBody, TableCaption } from "@/components/ui/table";
 import { motion } from 'framer-motion';
+import { Client, Databases } from "appwrite";
+import { useEffect, useState } from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
-// const tags = Array.from({ length: 50 }).map(
-//     (_, i, a) => `v1.2.0-beta.${a.length - i}`
-// )
 function Form() {
+    const [blogs, setBlogs] = useState<any[]>([]); // Provide the correct type for useState
+
+    const client = new Client();
+    const databases = new Databases(client);
+
+    client
+        .setEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
+        .setProject("65a25981e31e3582edd7"); // Your project ID
+
+    useEffect(() => {
+        const fetchBlogs = async () => {
+            try {
+                const response = await databases.listDocuments("65a2686f7ecaa9ecdd9f", "65a2687da5691bd47df6");
+                setBlogs(response.documents);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchBlogs();
+    }, []);
+
     return (
         <motion.div
-            initial={ { x: 400 } }
-            animate={ { x: 0 } }
+            initial={{ x: 400 }}
+            animate={{ x: 0 }}
             transition={ { type: "spring", duration: 1.8 } }
+            className="h-screen w-full"
         >
-            
-            <ScrollArea
+            {blogs.length > 0 ? (
                 
-                className="h-screen w-full  rounded-md border">
-                <Table>
-                    <TableCaption>Latest blogs</TableCaption>
-                    <TableHeader>
-                        <TableHead>Feeds</TableHead>
-                    </TableHeader>
+                    <Table className="table bg-slate-50 w-full min-w-2.5">
+                        <TableCaption>Blog Posts</TableCaption>
                     <TableBody>
-                        <TableRow>
-                            <TableCell className="font-medium">
-                                <div className='hero-content w-full:'>
-                                    <img
-                                        src="https://media.licdn.com/dms/image/D4D12AQHOaW_D1HB5QQ/article-cover_image-shrink_720_1280/0/1680373800691?e=1710374400&v=beta&t=P4oWfuUp6BM4W69OaKKcR7gjV1Vrz1xMmAnTtMrX1Ck"
-                                        alt="avatar"
-                                        width={ 400 }
-                                        height={ 200 }
-                                        className="rounded-lg"
-                                    />
-                                    <div className="flex flex-col w-full">
-                                        <p>
-                                            <span className="font-bold">John Doe</span> uploaded 4
-                                            new photos
-                                        </p>
-                                        {/* <br/> */ }
-                                        <p>
-                                            <span className="text-xs text-gray-500">
-                                                2 hours ago
-                                            </span>
-                                        </p>
+                        <ScrollArea className="h-full ">
+                            { blogs.map((item) => (
+                                <div className="space-y-4 mb-4 ml-2 mr-2 mt-2 " key={ item.$id }>
+                                    <div className="card space-y-10 w-full shadow-lg compact bg-base-100">
+                                        <div className=" space-y-3  rounded-lg  card-body">
+                                            <h2 className="card-title text-3xl">{ item.title }</h2>
+                                            <p>{ item.content }</p>
+                                            <p>{ item.author }</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className="font-medium">
-                                <div className='hero-content  max-w-1/3:'>
-                                    <img
-                                        src="https://media.licdn.com/dms/image/D4D12AQHOaW_D1HB5QQ/article-cover_image-shrink_720_1280/0/1680373800691?e=1710374400&v=beta&t=P4oWfuUp6BM4W69OaKKcR7gjV1Vrz1xMmAnTtMrX1Ck"
-                                        alt="avatar"
-                                        width={ 400 }
-                                        height={ 200 }
-                                        className="rounded-lg"
-                                    />
-                                    <div className="flex flex-col w-full">
-                                        <p>
-                                            <span className="font-bold">John Doe</span> uploaded 4
-                                            new photos
-                                        </p>
-                                        {/* <br/> */ }
-                                        <p>
-                                            <span className="text-xs text-gray-500">
-                                                2 hours ago
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className="font-medium">
-                                <div className='hero-content  max-w-1/3:'>
-                                    <img
-                                        src="https://media.licdn.com/dms/image/D4D12AQHOaW_D1HB5QQ/article-cover_image-shrink_720_1280/0/1680373800691?e=1710374400&v=beta&t=P4oWfuUp6BM4W69OaKKcR7gjV1Vrz1xMmAnTtMrX1Ck"
-                                        alt="avatar"
-                                        width={ 400 }
-                                        height={ 200 }
-                                        className="rounded-lg"
-                                    />
-                                    <div className="flex flex-col w-full">
-                                        <p>
-                                            <span className="font-bold">John Doe</span> uploaded 4
-                                            new photos
-                                        </p>
-                                        {/* <br/> */ }
-                                        <p>
-                                            <span className="text-xs text-gray-500">
-                                                2 hours ago
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className="font-medium">
-                                <div className='hero-content  max-w-1/3:'>
-                                    <img
-                                        src="https://media.licdn.com/dms/image/D4D12AQHOaW_D1HB5QQ/article-cover_image-shrink_720_1280/0/1680373800691?e=1710374400&v=beta&t=P4oWfuUp6BM4W69OaKKcR7gjV1Vrz1xMmAnTtMrX1Ck"
-                                        alt="avatar"
-                                        width={ 400 }
-                                        height={ 200 }
-                                        className="rounded-lg"
-                                    />
-                                    <div className="flex flex-col w-full">
-                                        <p>
-                                            <span className="font-bold">John Doe</span> uploaded 4
-                                            new photos
-                                        </p>
-                                        {/* <br/> */ }
-                                        <p>
-                                            <span className="text-xs text-gray-500">
-                                                2 hours ago
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className="font-medium">
-                                <div className='hero-content  max-w-1/3:'>
-                                    <img
-                                        src="https://media.licdn.com/dms/image/D4D12AQHOaW_D1HB5QQ/article-cover_image-shrink_720_1280/0/1680373800691?e=1710374400&v=beta&t=P4oWfuUp6BM4W69OaKKcR7gjV1Vrz1xMmAnTtMrX1Ck"
-                                        alt="avatar"
-                                        width={ 400 }
-                                        height={ 200 }
-                                        className="rounded-lg"
-                                    />
-                                    <div className="flex flex-col w-full">
-                                        <p>
-                                            <span className="font-bold">John Doe</span> uploaded 4
-                                            new photos
-                                        </p>
-                                        {/* <br/> */ }
-                                        <p>
-                                            <span className="text-xs text-gray-500">
-                                                2 hours ago
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className="font-medium">
-                                <div className='hero-content  max-w-1/3:'>
-                                    <img
-                                        src="https://media.licdn.com/dms/image/D4D12AQHOaW_D1HB5QQ/article-cover_image-shrink_720_1280/0/1680373800691?e=1710374400&v=beta&t=P4oWfuUp6BM4W69OaKKcR7gjV1Vrz1xMmAnTtMrX1Ck"
-                                        alt="avatar"
-                                        width={ 400 }
-                                        height={ 200 }
-                                        className="rounded-lg"
-                                    />
-                                    <div className="flex flex-col w-full">
-                                        <p>
-                                            <span className="font-bold">John Doe</span> uploaded 4
-                                            new photos
-                                        </p>
-                                        {/* <br/> */ }
-                                        <p>
-                                            <span className="text-xs text-gray-500">
-                                                2 hours ago
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className="font-medium">
-                                <div className='hero-content  max-w-1/3:'>
-                                    <img
-                                        src="https://media.licdn.com/dms/image/D4D12AQHOaW_D1HB5QQ/article-cover_image-shrink_720_1280/0/1680373800691?e=1710374400&v=beta&t=P4oWfuUp6BM4W69OaKKcR7gjV1Vrz1xMmAnTtMrX1Ck"
-                                        alt="avatar"
-                                        width={ 400 }
-                                        height={ 200 }
-                                        className="rounded-lg"
-                                    />
-                                    <div className="flex flex-col w-full">
-                                        <p>
-                                            <span className="font-bold">John Doe</span> uploaded 4
-                                            new photos
-                                        </p>
-                                        {/* <br/> */ }
-                                        <p>
-                                            <span className="text-xs text-gray-500">
-                                                2 hours ago
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className="font-medium">
-                                <div className='hero-content  max-w-1/3:'>
-                                    <img
-                                        src="https://media.licdn.com/dms/image/D4D12AQHOaW_D1HB5QQ/article-cover_image-shrink_720_1280/0/1680373800691?e=1710374400&v=beta&t=P4oWfuUp6BM4W69OaKKcR7gjV1Vrz1xMmAnTtMrX1Ck"
-                                        alt="avatar"
-                                        width={ 400 }
-                                        height={ 200 }
-                                        className="rounded-lg"
-                                    />
-                                    <div className="flex flex-col w-full">
-                                        <p>
-                                            <span className="font-bold">John Doe</span> uploaded 4
-                                            new photos
-                                        </p>
-                                        {/* <br/> */ }
-                                        <p>
-                                            <span className="text-xs text-gray-500">
-                                                2 hours ago
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className="font-medium">
-                                <div className='hero-content  max-w-1/3:'>
-                                    <img
-                                        src="https://media.licdn.com/dms/image/D4D12AQHOaW_D1HB5QQ/article-cover_image-shrink_720_1280/0/1680373800691?e=1710374400&v=beta&t=P4oWfuUp6BM4W69OaKKcR7gjV1Vrz1xMmAnTtMrX1Ck"
-                                        alt="avatar"
-                                        width={ 400 }
-                                        height={ 200 }
-                                        className="rounded-lg"
-                                    />
-                                    <div className="flex flex-col w-full">
-                                        <p>
-                                            <span className="font-bold">John Doe</span> uploaded 4
-                                            new photos
-                                        </p>
-                                        {/* <br/> */ }
-                                        <p>
-                                            <span className="text-xs text-gray-500">
-                                                2 hours ago
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className="font-medium">
-                                <div className='hero-content  max-w-1/3:'>
-                                    <img
-                                        src="https://media.licdn.com/dms/image/D4D12AQHOaW_D1HB5QQ/article-cover_image-shrink_720_1280/0/1680373800691?e=1710374400&v=beta&t=P4oWfuUp6BM4W69OaKKcR7gjV1Vrz1xMmAnTtMrX1Ck"
-                                        alt="avatar"
-                                        width={ 400 }
-                                        height={ 200 }
-                                        className="rounded-lg"
-                                    />
-                                    <div className="flex flex-col w-full">
-                                        <p>
-                                            <span className="font-bold">John Doe</span> uploaded 4
-                                            new photos
-                                        </p>
-                                        {/* <br/> */ }
-                                        <p>
-                                            <span className="text-xs text-gray-500">
-                                                2 hours ago
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className="font-medium">
-                                <div className='hero-content  max-w-1/3:'>
-                                    <img
-                                        src="https://media.licdn.com/dms/image/D4D12AQHOaW_D1HB5QQ/article-cover_image-shrink_720_1280/0/1680373800691?e=1710374400&v=beta&t=P4oWfuUp6BM4W69OaKKcR7gjV1Vrz1xMmAnTtMrX1Ck"
-                                        alt="avatar"
-                                        width={ 400 }
-                                        height={ 200 }
-                                        className="rounded-lg"
-                                    />
-                                    <div className="flex flex-col w-full">
-                                        <p>
-                                            <span className="font-bold">John Doe</span> uploaded 4
-                                            new photos
-                                        </p>
-                                        {/* <br/> */ }
-                                        <p>
-                                            <span className="text-xs text-gray-500">
-                                                2 hours ago
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className="font-medium">
-                                <div className='hero-content  max-w-1/3:'>
-                                    <img
-                                        src="https://media.licdn.com/dms/image/D4D12AQHOaW_D1HB5QQ/article-cover_image-shrink_720_1280/0/1680373800691?e=1710374400&v=beta&t=P4oWfuUp6BM4W69OaKKcR7gjV1Vrz1xMmAnTtMrX1Ck"
-                                        alt="avatar"
-                                        width={ 400 }
-                                        height={ 200 }
-                                        className="rounded-lg"
-                                    />
-                                    <div className="flex flex-col w-full">
-                                        <p>
-                                            <span className="font-bold">John Doe</span> uploaded 4
-                                            new photos
-                                        </p>
-                                        {/* <br/> */ }
-                                        <p>
-                                            <span className="text-xs text-gray-500">
-                                                2 hours ago
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className="font-medium">
-                                <div className='hero-content  max-w-1/3:'>
-                                    <img
-                                        src="https://media.licdn.com/dms/image/D4D12AQHOaW_D1HB5QQ/article-cover_image-shrink_720_1280/0/1680373800691?e=1710374400&v=beta&t=P4oWfuUp6BM4W69OaKKcR7gjV1Vrz1xMmAnTtMrX1Ck"
-                                        alt="avatar"
-                                        width={ 400 }
-                                        height={ 200 }
-                                        className="rounded-lg"
-                                    />
-                                    <div className="flex flex-col w-full">
-                                        <p>
-                                            <span className="font-bold">John Doe</span> uploaded 4
-                                            new photos
-                                        </p>
-                                        {/* <br/> */ }
-                                        <p>
-                                            <span className="text-xs text-gray-500">
-                                                2 hours ago
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className="font-medium">
-                                <div className='hero-content  max-w-1/3:'>
-                                    <img
-                                        src="https://media.licdn.com/dms/image/D4D12AQHOaW_D1HB5QQ/article-cover_image-shrink_720_1280/0/1680373800691?e=1710374400&v=beta&t=P4oWfuUp6BM4W69OaKKcR7gjV1Vrz1xMmAnTtMrX1Ck"
-                                        alt="avatar"
-                                        width={ 400 }
-                                        height={ 200 }
-                                        className="rounded-lg"
-                                    />
-                                    <div className="flex flex-col w-full">
-                                        <p>
-                                            <span className="font-bold">John Doe</span> uploaded 4
-                                            new photos
-                                        </p>
-                                        {/* <br/> */ }
-                                        <p>
-                                            <span className="text-xs text-gray-500">
-                                                2 hours ago
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </TableCell>
-                        </TableRow>
+                            )) }
+                    </ScrollArea>
                     </TableBody>
-                </Table>
-
-            </ScrollArea>   
-      </motion.div>
-      
-  )
+                    </Table>
+                
+            ) : (
+                <span className="loading loading-dots loading-lg">Loading</span>
+            )}
+        </motion.div>
+    );
 }
 
-export default Form
+export default Form;

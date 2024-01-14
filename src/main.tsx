@@ -7,6 +7,9 @@ import {  Users, } from 'lucide-react'
 import About from './pages/About/About.tsx'
 import Contact from './pages/Contact/Contact.tsx'
 import Home from './pages/Home/Home.tsx'
+import { ThemeProvider } from './components/theme-provider.tsx'
+
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -21,7 +24,11 @@ const router = createBrowserRouter(
 )
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <RouterProvider router={router}/>
-  </React.StrictMode>,
-)
+  <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+  
+<React.StrictMode>
+  <RouterProvider router={router}/>
+    
+  </React.StrictMode>
+  </ThemeProvider >
+  )
